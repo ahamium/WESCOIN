@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  wescoind The wescoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: wescoind
+# processname: wescoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/wescoind, see below
+if [ -f /etc/sysconfig/wescoind ]; then
+        . /etc/sysconfig/wescoind
+fi
+
+RETVAL=0
+
+prog=wescoind
+# you can override the lockfile via WESCOIND_LOCKFILE in /etc/sysconfig/wescoind
+lockfile=${WESCOIND_LOCKFILE-/var/lock/subsys/wescoind}
+
+# wescoind defaults to /usr/bin/wescoind, override with WESCOIND_BIN
+wescoind=${WESCOIND_BIN-/usr/bin/wescoind}
+
+# wescoind opts default to -disablewallet, override with WESCOIND_OPTS
+wescoind_opts=${WESCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $wescoind $wescoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

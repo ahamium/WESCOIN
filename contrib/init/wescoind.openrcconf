@@ -1,0 +1,33 @@
+# /etc/conf.d/wescoind: config file for /etc/init.d/wescoind
+
+# Config file location
+#WESCOIND_CONFIGFILE="/etc/wescoin/wescoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $WESCOIND_USER)
+#WESCOIND_PIDDIR="/var/run/wescoind"
+
+# What filename to give the pidfile
+#WESCOIND_PIDFILE="${WESCOIND_PIDDIR}/wescoind.pid"
+
+# Where to write wescoind data (be mindful that the blockchain is large)
+#WESCOIND_DATADIR="/var/lib/wescoind"
+
+# User and group to own wescoind process
+#WESCOIND_USER="wescoin"
+#WESCOIND_GROUP="wescoin"
+
+# Path to wescoind executable
+#WESCOIND_BIN="/usr/bin/wescoind"
+
+# Nice value to run wescoind under
+#WESCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#WESCOIND_OPTS=""
+
+# The timeout in seconds OpenRC will wait for wescoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+WESCOIND_SIGTERM_TIMEOUT=60
